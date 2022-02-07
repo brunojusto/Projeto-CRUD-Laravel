@@ -10,10 +10,24 @@
     <div class="row">
       <div class="col-12 box-body">
         <a href="{{ route('produtos.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar</a>
-        
+        <form action="{{ route('produtos.pesquisa') }}" class="form form-inline float-right" method="post">
+          @csrf
+          <input type="text" name="pesquisa" class="form-control mr-2" placeholder="Pesquisar">
+          <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Pesquisar</button>
+        </form>
         <br>
-        
+        @forelse($produtos as $produto)
+         @if(isset($pesquisa))
+          <p class="text-muted float-right">Resultados para: {{ $pesquisa }}</p>
+         @endif
+         @break
+         @empty
+         @if(isset($pesquisa))
+          <p class="text-danger float-right">Nenhum registro para: {{ $pesquisa }}</p>
+         @endif
+        @endforelse
       </div>
+    
     
         <div class="col-12">
           <br>

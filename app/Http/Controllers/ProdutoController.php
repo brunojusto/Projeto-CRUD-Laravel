@@ -116,4 +116,14 @@ class ProdutoController extends Controller
         return redirect()->route('produtos.index');
 
     }
+
+    public function pesquisa(Request $request)
+    {
+        $produtos = $this->produto->with('categorias')
+                                    ->where('nome', 'like', "%$request->pesquisa%")
+                                    ->orWhere('preco', 'like', "%$request->pesquisa%")
+                                    ->orWhere('descricao', 'like', "%{ $request->pesquisa}%")
+                                    ->paginate(5);
+        return view('admin.produtos.index', compact('produtos'));
+    }
 }
